@@ -1,6 +1,6 @@
 {
     "name": "turbolabit/php-doctrine-runtime-manager",
-    "description": "",
+    "description": "Switch and manage the Doctrine connection at runtime",
     "license": "MIT",
     "authors": [
         {
