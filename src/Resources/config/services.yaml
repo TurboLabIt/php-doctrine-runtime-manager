@@ -1,3 +1,1 @@
-services:
-  TurboLabIt\DoctrineRuntimeManager\DoctrineRuntimeManager:
-    arguments:
+# see https://github.com/TurboLabIt/php-doctrine-runtime-manager#%EF%B8%8F-2-mandatory-symfony-configuration
