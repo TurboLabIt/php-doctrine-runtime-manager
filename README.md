@@ -10,25 +10,61 @@ composer require turbolabit/php-doctrine-runtime-manager:dev-main
 
 ````
 
-## 🔁 Symfony usage
+## ⚙️ 2. Mandatory Symfony configuration
+
+If the application uses a single-DB connection:
+
+````yaml
+# config/packages/doctrine.yaml
+doctrine:
+  dbal:
+  # ....
+  wrapper_class: TurboLabIt\DoctrineRuntimeManager\DoctrineRuntimeManager
+  # ....
+````
+
+If the application uses multiple connections, you must configure the wrapper on each connection:
+
+````yaml
+# config/packages/doctrine.yaml
+doctrine:
+  dbal:
+  default_connection: default
+  connections:
+    default:
+      # ....
+      wrapper_class: TurboLabIt\DoctrineRuntimeManager\DoctrineRuntimeManager
+      # ...
+    wordpress:
+      # ....
+      # wrapper_class: TurboLabIt\DoctrineRuntimeManager\DoctrineRuntimeManager
+      # ...
+````
+
+
+## 🔁 3. Symfony usage
 
 ````php
 <?php
+namespace App\Service;
+
+class Language
+{
+    protected EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+    public function setCurrent($currentLn)
+    {
+        $this->em->getConnection()->selectDatabaseByAppend($currentLn);
+    }
+}
 
 ````
 
-See: [Usage]()
-
-
-## ⚙️ Symfony custom configuration (optional)
-
-````yaml
-# config/services.yaml
-
-
-````
-
-See: [services.yaml](https://github.com/TurboLabIt/php-doctrine-runtime-manager/blob/main/src/Resources/config/services.yaml)
 
 ## 🧪 Test it
 
