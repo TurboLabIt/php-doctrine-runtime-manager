@@ -1,0 +1,3 @@
+services:
+  TurboLabIt\DoctrineRuntimeManager\DoctrineRuntimeManager:
+    arguments:
