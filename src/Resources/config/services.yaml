@@ -1,5 +1,6 @@
 services:
   TurboLabIt\DoctrineRuntimeManager\Command\MigrateOneDbCommand:
+    arguments: ['@doctrine.orm.entity_manager']
     tags:
       - { name: 'console.command', command: 'MigrateOneDb' }
 
