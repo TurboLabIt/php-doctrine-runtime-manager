@@ -1,1 +1,7 @@
+services:
+  TurboLabIt\DoctrineRuntimeManager\Command\MigrateOneDbCommand:
+    tags:
+      - { name: 'console.command', command: 'MigrateOneDb' }
+
+## An additional, manual configuration is required!
 # see https://github.com/TurboLabIt/php-doctrine-runtime-manager#%EF%B8%8F-2-mandatory-symfony-configuration
