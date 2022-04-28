@@ -1,5 +1,6 @@
 # php-doctrine-runtime-manager
-Switch and manage the Doctrine connection at runtime
+
+Switch and manage the Doctrine connection at runtime.
 
 
 ## 📦 1. Install it with composer
@@ -74,3 +75,9 @@ cd php-doctrine-runtime-manager
 clear && bash script/test_runner.sh
 
 ````
+
+
+## 🔗 Sources
+
+- [Dynamic database connection based on request – Symfony and Doctrine](https://karoldabrowski.com/blog/dynamic-database-connection-based-on-request-symfony-and-doctrine/)
+- [Running multiple migrations in the same command](https://stackoverflow.com/questions/68246878/running-multiple-migrations-in-the-same-command)
