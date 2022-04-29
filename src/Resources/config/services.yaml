@@ -5,7 +5,7 @@ services:
     tags:
       - { name: 'console.command', command: 'MigrateOneDb' }
 
-  TurboLabIt\DoctrineRuntimeManager\Command\MigrateAllDbCommand:
+  TurboLabIt\DoctrineRuntimeManager\Command\MigrateAllDbsCommand:
     tags:
       - { name: 'console.command', command: 'MigrateAllDbs' }
 
