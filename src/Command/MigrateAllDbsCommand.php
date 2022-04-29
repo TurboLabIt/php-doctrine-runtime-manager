@@ -11,6 +11,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 
 class MigrateAllDbsCommand extends Command
@@ -65,16 +67,27 @@ class MigrateAllDbsCommand extends Command
             $argDbNames = array_merge([null], $argDbNames);
         }
 
+
+
         foreach($argDbNames as $dbName) {
 
-            $cmdMigrateOne = $this->getApplication()->find('MigrateOneDbCommand');
-            $cmdArguments   = new ArrayInput([
-                MigrateOneDbCommand::CLI_ARG_DB_NAME    => $dbName,
-                '--' . static::CLI_OPT_NAMING_MODE      => $optNameMode,
-                '--' . static::CLI_OPT_DRY_RUN          => $this->input->getOption(static::CLI_OPT_DRY_RUN),
-            ]);
-            $cmdArguments->setInteractive(false);
-            $cmdMigrate->run($cmdArguments, $this->output);
+            $arrMigrateOneArgs = [
+                "bin/console", "MigrateOneDb", $dbName,
+                '--' . static::CLI_OPT_NAMING_MODE  . "=" . $optNameMode
+            ];
+
+            if( $this->input->getOption(static::CLI_OPT_DRY_RUN) ) {
+                $arrMigrateOneArgs[] = '--' . static::CLI_OPT_DRY_RUN;
+            }
+
+            $process = new Process($arrMigrateOneArgs);
+            $process->run();
+
+            if( !$process->isSuccessful() ) {
+                throw new ProcessFailedException($process);
+            }
+
+            echo $process->getOutput();
         }
 
         $this->io->success('Done');
