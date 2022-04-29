@@ -15,9 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MigrateOneDbCommand extends Command
 {
-    const CLI_ARG_DB_NAME       = 'dbname';
-    const CLI_OPT_NAMING_MODE   = 'name-mode';
-    const CLI_OPT_DRY_RUN       = 'dry-run';
+    const CLI_ARG_DB_NAME               = 'dbname';
 
     protected static $defaultName        = 'MigrateOneDb';
     protected static $defaultDescription = 'Run migrations against the provided DB';
@@ -38,8 +36,8 @@ class MigrateOneDbCommand extends Command
         $this
             ->setDescription(self::$defaultDescription)
             ->addArgument(static::CLI_ARG_DB_NAME, InputArgument::OPTIONAL, 'The name or the suffix of of the database to migrate')
-            ->addOption(static::CLI_OPT_NAMING_MODE, null, InputOption::VALUE_OPTIONAL, 'name: the next argument is the full name of the database to migrate | suffix: the next argument is the suffix to append to the defaul db name (defaultDb_suffix)', "name")
-            ->addOption(static::CLI_OPT_DRY_RUN, null, InputOption::VALUE_NONE, 'Test only (no changes)')
+            ->addOption(MigrateAllDbsCommand::CLI_OPT_NAMING_MODE, null, InputOption::VALUE_OPTIONAL, 'name: the argument is the full name of the database to migrate | suffix: the argument is the suffix to append to the defaul db name (defaultDb_suffix)', "name")
+            ->addOption(MigrateAllDbsCommand::CLI_OPT_DRY_RUN, null, InputOption::VALUE_NONE, 'Test only (no changes)')
         ;
     }
 
@@ -51,7 +49,7 @@ class MigrateOneDbCommand extends Command
         $this->io       = new SymfonyStyle($input, $output);
 
         $argDbName      = $this->input->getArgument(static::CLI_ARG_DB_NAME);
-        $optNameMode    = $this->input->getOption(static::CLI_OPT_NAMING_MODE);
+        $optNameMode    = $this->input->getOption(MigrateAllDbsCommand::CLI_OPT_NAMING_MODE);
 
         $lockName       = static::$defaultName . "_" . implode("_", [$argDbName, $optNameMode]);
         if (!$this->lock($lockName)) {
@@ -61,8 +59,8 @@ class MigrateOneDbCommand extends Command
 
         $this->io->block("Migrating on " . $argDbName, null, 'fg=black;bg=cyan', ' ', true);
 
-        if( !in_array($optNameMode, ["name", "suffix"]) ) {
-            $this->io->error('Bad option! Valid values for ' . static::CLI_OPT_NAMING_MODE . ' are `name` or `suffix`');
+        if( !in_array($optNameMode, [MigrateAllDbsCommand::CLI_VAL_NAMING_MODE_NAME, MigrateAllDbsCommand::CLI_VAL_NAMING_MODE_SUFFIX]) ) {
+            $this->io->error('Bad option! Valid values for ' . MigrateAllDbsCommand::CLI_OPT_NAMING_MODE . ' are `name` or `suffix`');
             return 0;
         }
 
@@ -82,7 +80,7 @@ class MigrateOneDbCommand extends Command
         }
 
         // https://symfony.com/doc/current/console/calling_commands.html
-        if( $this->input->getOption(static::CLI_OPT_DRY_RUN) ) {
+        if( true || $this->input->getOption(MigrateAllDbsCommand::CLI_OPT_DRY_RUN) ) {
 
             $this->io->section("Dry run. Attempting to show the status...");
             $cmdMigrate     = $this->getApplication()->find('doctrine:migrations:status');

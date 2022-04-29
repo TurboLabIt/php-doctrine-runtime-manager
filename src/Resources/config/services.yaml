@@ -1,8 +1,13 @@
 services:
+
   TurboLabIt\DoctrineRuntimeManager\Command\MigrateOneDbCommand:
     arguments: ['@doctrine.orm.entity_manager']
     tags:
       - { name: 'console.command', command: 'MigrateOneDb' }
+
+  TurboLabIt\DoctrineRuntimeManager\Command\MigrateAllDbCommand:
+    tags:
+      - { name: 'console.command', command: 'MigrateAllDbs' }
 
 ## An additional, manual configuration is required!
 # see https://github.com/TurboLabIt/php-doctrine-runtime-manager#%EF%B8%8F-2-mandatory-symfony-configuration
