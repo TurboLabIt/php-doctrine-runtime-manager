@@ -71,7 +71,7 @@ class MigrateAllDbsCommand extends Command
         foreach($argDbNames as $dbName) {
 
             $arrMigrateOneArgs = [
-                "symfony", "bin/console",
+                "symfony", "console",
                 "MigrateOneDb", $dbName,
                 '--' . static::CLI_OPT_NAMING_MODE  . "=" . $optNameMode
             ];
