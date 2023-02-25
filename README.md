@@ -6,7 +6,7 @@ Switch and manage the Doctrine connection at runtime.
 ## 📦 1. Install it with composer
 
 ````bash
-composer config repositories.TurboLabIt/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
+composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
 composer require turbolabit/php-doctrine-runtime-manager:dev-main
 
 ````
